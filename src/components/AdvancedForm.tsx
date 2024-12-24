@@ -1,7 +1,91 @@
-import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import "../style.css";
+
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  city: string;
+  state: string;
+};
+
+const onSubmit: SubmitHandler<FormData> = (data) => {
+  console.log(data);
+};
 
 function AdvancedForm() {
-  return <div>AdvancedForm</div>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  return (
+    <div className="form-container">
+      <h2>Registration Form</h2>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            {...register("firstName", {
+              required: "First Name is required",
+            })}
+          />
+          {errors.firstName && <p>{errors.firstName.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            {...register("lastName", {
+              required: "Last Name is required",
+            })}
+          />
+          {errors.lastName && <p>{errors.lastName.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Entered value does not match email format",
+              },
+            })}
+          />
+          {errors.email && <p>{errors.email.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            id="city"
+            {...register("city", {
+              required: "City is required",
+            })}
+          />
+          {errors.city && <p>{errors.city.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="state">State</label>
+          <input
+            type="text"
+            id="state"
+            {...register("state", {
+              required: "State is required",
+            })}
+          />
+          {errors.state && <p>{errors.state.message}</p>}
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
 }
 
 export default AdvancedForm;
